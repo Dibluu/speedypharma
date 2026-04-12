@@ -1,0 +1,420 @@
+/**
+ * SpeedyPharma — Animations & Micro-interactions
+ * ================================================
+ * 
+ * Ce fichier ajoute de la "vie" à ta landing page sans altérer
+ * la charte graphique existante. Drop-in ready.
+ * 
+ * Contenu :
+ * 1. Staggered Reveals (sections qui apparaissent en cascade)
+ * 2. Hover States Expressifs (cards qui respirent)
+ * 3. Micro-interactions CTA (boutons qui répondent)
+ * 4. Header transition améliorée
+ * 5. Smooth scroll natif
+ * 
+ * Dépendances : Aucune (vanilla CSS + JS)
+ * Taille : ~4KB minifié
+ */
+
+/* ===========================================
+   0. BASE & RESPECT PREFERS-REDUCED-MOTION
+   =========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===========================================
+   1. STAGGERED REVEALS
+   =========================================== */
+
+/* État initial : invisible et légèrement décalé */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: 
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* État visible */
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Délais en cascade pour les enfants
+   Applique .reveal-stagger sur le parent (ex: la grille des cards) */
+.reveal-stagger > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger > *:nth-child(2) { transition-delay: 80ms; }
+.reveal-stagger > *:nth-child(3) { transition-delay: 160ms; }
+.reveal-stagger > *:nth-child(4) { transition-delay: 240ms; }
+.reveal-stagger > *:nth-child(5) { transition-delay: 320ms; }
+.reveal-stagger > *:nth-child(6) { transition-delay: 400ms; }
+.reveal-stagger > *:nth-child(7) { transition-delay: 480ms; }
+.reveal-stagger > *:nth-child(8) { transition-delay: 560ms; }
+
+/* Variante : reveal depuis la gauche (pour le hero texte) */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Variante : reveal depuis la droite (pour le hero image) */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Délai pour le hero : texte d'abord, image ensuite */
+.hero-content .reveal-left { transition-delay: 0ms; }
+.hero-content .reveal-right { transition-delay: 200ms; }
+
+/* ===========================================
+   2. HOVER STATES EXPRESSIFS
+   =========================================== */
+
+/* Cards Problèmes — effet "respiration" */
+.problem-card {
+  transition: 
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.problem-card:hover {
+  transform: translateY(-6px) scale(1.02) rotate(0.5deg);
+  box-shadow: 
+    0 12px 28px rgba(61, 90, 128, 0.12),
+    0 4px 8px rgba(61, 90, 128, 0.08);
+}
+
+.problem-card:active {
+  transform: translateY(-2px) scale(0.98);
+  transition-duration: 0.1s;
+}
+
+/* Overlay gradient qui s'intensifie au hover */
+.problem-card__overlay {
+  transition: opacity 0.3s ease;
+}
+
+.problem-card:hover .problem-card__overlay {
+  opacity: 1;
+  background: linear-gradient(
+    to top,
+    rgba(41, 50, 65, 0.9) 0%,
+    rgba(41, 50, 65, 0.4) 50%,
+    transparent 100%
+  );
+}
+
+/* Label qui monte légèrement au hover */
+.problem-card__label {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.problem-card:hover .problem-card__label {
+  transform: translateY(-4px);
+}
+
+/* Product Cards — hover plus subtil */
+.product-card {
+  transition: 
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 8px 20px rgba(61, 90, 128, 0.1),
+    0 2px 6px rgba(61, 90, 128, 0.06);
+}
+
+/* Image produit qui zoom légèrement */
+.product-card__image {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-card:hover .product-card__image {
+  transform: scale(1.05);
+}
+
+/* ===========================================
+   3. MICRO-INTERACTIONS CTA
+   =========================================== */
+
+/* Bouton primaire — pulse au hover, ripple au clic */
+.button--primary {
+  position: relative;
+  overflow: hidden;
+  transition: 
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Glow subtil au hover */
+.button--primary:hover {
+  box-shadow: 
+    0 4px 14px rgba(238, 108, 77, 0.35),
+    0 2px 6px rgba(238, 108, 77, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Press effect */
+.button--primary:active {
+  transform: scale(0.97) translateY(0);
+  box-shadow: 0 2px 8px rgba(238, 108, 77, 0.25);
+  transition-duration: 0.1s;
+}
+
+/* Ripple effect (pseudo-element) */
+.button--primary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.button--primary.ripple::after {
+  animation: ripple-effect 0.6s ease-out;
+}
+
+@keyframes ripple-effect {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+/* Bouton secondaire — border qui pulse */
+.button--secondary {
+  position: relative;
+  transition: 
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.button--secondary:hover {
+  transform: translateY(-1px);
+}
+
+.button--secondary:active {
+  transform: scale(0.97);
+}
+
+/* Add to cart button — bounce success */
+.button--add-cart {
+  transition: 
+    background-color 0.2s ease,
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.button--add-cart:active {
+  transform: scale(0.92);
+}
+
+.button--add-cart.added {
+  animation: bounce-success 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes bounce-success {
+  0% { transform: scale(0.92); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ===========================================
+   4. HEADER TRANSITION AMÉLIORÉE
+   =========================================== */
+
+.header {
+  transition: 
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+.header.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(41, 50, 65, 0.06);
+}
+
+/* Logo qui scale légèrement au scroll */
+.header__logo {
+  transition: transform 0.3s ease;
+}
+
+.header.scrolled .header__logo {
+  transform: scale(0.95);
+}
+
+/* Nav links — underline animé */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent, #EE6C4D);
+  border-radius: 1px;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ===========================================
+   5. CAROUSEL SMOOTH (Section Essentiels)
+   =========================================== */
+
+.products-carousel {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.products-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.products-carousel > * {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Indicateurs de pagination */
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-text-muted, #8A95A3);
+  opacity: 0.4;
+  transition: 
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    width 0.2s ease;
+}
+
+.carousel-dot.active {
+  opacity: 1;
+  width: 24px;
+  border-radius: 4px;
+  background: var(--color-primary, #3D5A80);
+}
+
+/* ===========================================
+   6. RÉASSURANCE — Icônes qui pulse au hover
+   =========================================== */
+
+.reassurance-item {
+  transition: transform 0.3s ease;
+}
+
+.reassurance-item:hover {
+  transform: translateY(-4px);
+}
+
+.reassurance-item__icon {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.reassurance-item:hover .reassurance-item__icon {
+  transform: scale(1.1);
+}
+
+/* ===========================================
+   7. FOOTER — Links avec transition
+   =========================================== */
+
+.footer-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transition: width 0.3s ease;
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
+/* ===========================================
+   8. SECTION PHARMACIEN — Image hover
+   =========================================== */
+
+.pharmacist-image {
+  overflow: hidden;
+  border-radius: var(--radius-lg, 12px);
+}
+
+.pharmacist-image img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pharmacist-image:hover img {
+  transform: scale(1.03);
+}
