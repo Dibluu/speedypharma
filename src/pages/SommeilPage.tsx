@@ -163,7 +163,7 @@ function HeroBloc({ onCTAClick }: { onCTAClick: () => void }) {
         .hero-sommeil {
           position: relative;
           min-height: 620px;
-          background: linear-gradient(135deg, #D4A574 0%, #C89060 100%);
+          background: linear-gradient(135deg, #EE6C4D 0%, #D4563B 100%);
           overflow: visible;
           display: grid;
           grid-template-columns: 1fr 1fr;
