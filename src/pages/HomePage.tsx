@@ -9,8 +9,8 @@ import { useFadeIn } from '../hooks/useFadeIn'
 const PROBLEMS = [
   { label: 'Je dors mal', img: '/assets/sommeil.png', slug: 'sommeil', href: '/sommeil' },
   { label: "J'ai mal à la tête", img: '/assets/douleur.png', slug: 'douleur', href: '#' },
-  { label: 'Coup de mou', img: '/assets/energie.png', slug: 'energie', href: '#' },
-  { label: 'Rhume & grippe', img: '/assets/rhume.png', slug: 'rhume', href: '#' },
+  { label: 'Coup de mou', img: '/assets/energie-removebg-preview.png', slug: 'energie', href: '#', variant: 'blue' as const },
+  { label: 'Rhume & grippe', img: '/assets/rhume-removebg-preview.png', slug: 'rhume', href: '#', variant: 'blue' as const },
   { label: 'Digestion', img: '/assets/digestion.png', slug: 'digestion', href: '#' },
   { label: 'Ma peau', img: '/assets/peau.png', slug: 'peau', href: '#' },
 ]
@@ -402,6 +402,37 @@ function ProblemsSection() {
                   <div className="problem-card__arrow">Voir les solutions →</div>
                 </div>
               </Link>
+            ) : (p as any).variant === 'blue' ? (
+              <a
+                key={p.slug}
+                href={p.href}
+                className={`problem-card problem-card--blue reveal delay-${(i % 4) + 1}`}
+                aria-label={p.label}
+                style={{ background: 'linear-gradient(135deg, #2C4A6E 0%, #3D5A80 60%, #4A6D96 100%)' }}
+              >
+                {/* Title — top left */}
+                <div style={{
+                  position: 'absolute', top: 18, left: 18, zIndex: 2,
+                }}>
+                  <div className="problem-card__label">{p.label}</div>
+                  <div className="problem-card__arrow">Voir les solutions →</div>
+                </div>
+                {/* Person image — centered, large */}
+                <img
+                  src={p.img}
+                  alt={p.label}
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '105%',
+                    height: 'auto',
+                    filter: 'drop-shadow(0px 8px 24px rgba(0,0,0,0.5))',
+                  }}
+                  loading="lazy"
+                />
+              </a>
             ) : (
               <a
                 key={p.slug}
