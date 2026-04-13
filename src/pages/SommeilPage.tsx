@@ -163,11 +163,21 @@ function HeroBloc({ onCTAClick }: { onCTAClick: () => void }) {
         .hero-sommeil {
           position: relative;
           min-height: 620px;
-          background: linear-gradient(135deg, #EE6C4D 0%, #D4563B 100%);
+          background: #3D5A80;
           overflow: visible;
           display: grid;
           grid-template-columns: 1fr 1fr;
           align-items: center;
+        }
+
+        /* Overlay sombre dégradé gauche → droite (desktop) */
+        .hero-sommeil::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to right, rgba(10,20,40,0.6) 0%, rgba(10,20,40,0) 62%);
+          z-index: 1;
+          pointer-events: none;
         }
 
         .hero-sommeil__content {
@@ -191,7 +201,7 @@ function HeroBloc({ onCTAClick }: { onCTAClick: () => void }) {
           border-radius: 50px;
           font-size: 0.8rem;
           font-weight: 600;
-          color: #2C1810;
+          color: rgba(255,255,255,0.9);
           text-transform: uppercase;
           letter-spacing: 0.5px;
           margin-bottom: 24px;
@@ -205,7 +215,7 @@ function HeroBloc({ onCTAClick }: { onCTAClick: () => void }) {
           letter-spacing: -0.5px;
           margin-bottom: 20px;
           max-width: 480px;
-          text-shadow: 0 2px 12px rgba(44,24,16,0.2);
+          text-shadow: 0 2px 16px rgba(0,0,0,0.35);
         }
 
         .hero-sommeil__subtitle {
@@ -232,11 +242,11 @@ function HeroBloc({ onCTAClick }: { onCTAClick: () => void }) {
           font-weight: 700;
           cursor: pointer;
           transition: transform 0.15s ease, box-shadow 0.15s ease;
-          box-shadow: 0 4px 16px rgba(44,24,16,0.15);
+          box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         }
         .hero-sommeil__btn-primary:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(44,24,16,0.2);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.28);
         }
 
         .hero-sommeil__btn-secondary {
@@ -269,7 +279,7 @@ function HeroBloc({ onCTAClick }: { onCTAClick: () => void }) {
           object-fit: contain;
           object-position: bottom right;
           z-index: 1;
-          filter: drop-shadow(-8px 0 32px rgba(44,24,16,0.12));
+          filter: drop-shadow(-8px 0 32px rgba(0,0,30,0.15));
           animation: heroPersonEnter 0.7s ease-out both;
         }
 
@@ -280,6 +290,11 @@ function HeroBloc({ onCTAClick }: { onCTAClick: () => void }) {
 
         /* ── Responsive ── */
         @media (max-width: 1024px) {
+          /* Overlay sombre dégradé haut → bas (mobile) */
+          .hero-sommeil::before {
+            background: linear-gradient(to bottom, rgba(10,20,40,0.65) 0%, rgba(10,20,40,0) 65%);
+          }
+
           .hero-sommeil {
             grid-template-columns: 1fr;
             min-height: auto;
@@ -415,17 +430,18 @@ function PharmacistBloc() {
 
           {/* Avatar */}
           <div style={{ flexShrink: 0 }}>
-            <div style={{
-              width: 120, height: 120,
-              borderRadius: '50%',
-              background: 'var(--sp-bg-accent)',
-              border: '3px solid var(--sp-primary)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '3rem',
-              overflow: 'hidden',
-            }}>
-              👨‍⚕️
-            </div>
+            <img
+              src="/assets/pharmacien.png"
+              alt="Thomas, pharmacien SpeedyPharma"
+              style={{
+                width: 120, height: 120,
+                borderRadius: '50%',
+                objectFit: 'cover',
+                objectPosition: 'top center',
+                border: '3px solid var(--sp-primary)',
+                display: 'block',
+              }}
+            />
           </div>
 
           {/* Content */}
