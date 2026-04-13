@@ -16,10 +16,10 @@ const PROBLEMS = [
 ]
 
 const PRODUCTS = [
-  { name: 'Dafalgan 1g', sub: "L'indémodable contre la douleur", price: '4,85 €', img: '/assets/produits/dafalgan.jpg' },
-  { name: 'Mélatonine 1mg', sub: 'Pour retrouver un vrai sommeil', price: '9,90 €', img: '/assets/produits/melatonine.jpg' },
-  { name: 'Vitamine C 1000mg', sub: "Un boost quand t'en as besoin", price: '6,50 €', img: '/assets/produits/vitamine-c.jpg' },
-  { name: 'Strepsils Miel & Citron', sub: 'Pour la gorge qui gratte', price: '7,20 €', img: '/assets/produits/strepsil.jpg' },
+  { name: 'Dafalgan 1g', sub: "L'indémodable contre la douleur", price: '€7,95', img: '/assets/produits/dafalgan.jpg', href: '/produit/dafalgan' },
+  { name: 'Mélatonine 1mg', sub: 'Pour retrouver un vrai sommeil', price: '€9,50', img: '/assets/produits/melatonine.jpg', href: '#' },
+  { name: 'Vitamine C 1000mg', sub: "Un boost quand t'en as besoin", price: '€6,90', img: '/assets/produits/vitamine-c.jpg', href: '#' },
+  { name: 'Strepsils Miel & Citron', sub: 'Pour la gorge qui gratte', price: '€5,20', img: '/assets/produits/strepsil.jpg', href: '#' },
 ]
 
 const REASSURANCE = [
@@ -443,12 +443,19 @@ function ProblemsSection() {
 
 function ProductCard({ product, delay }: { product: typeof PRODUCTS[0]; delay?: number }) {
   const [added, setAdded] = useState(false)
+  const isLinked = product.href && product.href !== '#'
+  const nameEl = isLinked
+    ? <Link to={product.href} className="product-card__name" style={{ textDecoration: 'none', color: 'inherit' }}>{product.name}</Link>
+    : <div className="product-card__name">{product.name}</div>
+
   return (
     <div className={`product-card${delay ? ` reveal delay-${delay}` : ''}`}>
-      <div className="product-card__img" style={{ background: '#F8F9FA' }}>
+      <div className="product-card__img" style={{ background: '#F8F9FA', cursor: isLinked ? 'pointer' : 'default' }}
+        onClick={() => isLinked && (window.location.href = product.href)}
+      >
         <img src={product.img} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 8 }} loading="lazy" />
       </div>
-      <div className="product-card__name">{product.name}</div>
+      {nameEl}
       <div className="product-card__sub">{product.sub}</div>
       <div className="product-card__price">{product.price}</div>
       <button
