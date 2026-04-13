@@ -234,7 +234,7 @@ function HeroSection() {
               Livraison 24h. Vrai conseil de pharmacien. Les bons produits — sans se prendre la tête.
             </p>
 
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 44 }}>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
               <a href="#problemes" className="sp-btn sp-btn-primary button button--primary">
                 Trouver ma solution
               </a>
@@ -242,6 +242,12 @@ function HeroSection() {
                 Parler à un pharmacien
               </a>
             </div>
+
+            <p style={{ fontSize: '0.8rem', color: 'var(--sp-text-muted)', marginBottom: 32, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              <span>✓ Livraison le lendemain</span>
+              <span>✓ Conseil pharmacien gratuit</span>
+              <span>✓ Paiement 100% sécurisé</span>
+            </p>
 
             <div className="hero-quick-grid reveal delay-1" style={{
               display: 'grid',
@@ -497,14 +503,23 @@ function EssentialsSection() {
             Les classiques qui marchent
           </h2>
           <a href="#" style={{
-            fontSize: '0.9375rem', fontWeight: 500,
-            color: 'var(--sp-primary)', textDecoration: 'none',
-            display: 'flex', alignItems: 'center', gap: 4,
-          }}>
-            Tout le catalogue →
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+            display: 'flex', flexDirection: 'column', alignItems: 'flex-end',
+            textDecoration: 'none',
+            padding: '10px 18px',
+            border: '1.5px solid var(--sp-primary)',
+            borderRadius: 12,
+            gap: 2,
+            transition: 'background 0.15s ease',
+          }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--sp-bg-accent)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}
+          >
+            <span style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--sp-primary)' }}>
+              Tout le catalogue
+            </span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--sp-text-2)', fontWeight: 400 }}>
+              Parcourir tous nos produits
+            </span>
           </a>
         </div>
 
