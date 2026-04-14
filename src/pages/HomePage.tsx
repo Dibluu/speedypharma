@@ -731,6 +731,77 @@ function ReassuranceSection() {
   )
 }
 
+// ─── Announcement Bar ─────────────────────────────────────────────────────────
+
+const ANNOUNCEMENTS = [
+  'Livraison offerte dès 50 € d\'achat',
+  'Livraison en 24h — commandez avant 16h',
+  'Conseil pharmacien gratuit avec chaque commande',
+]
+
+function AnnouncementBar() {
+  const [current, setCurrent] = useState(0)
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setCurrent((c) => (c + 1) % ANNOUNCEMENTS.length)
+        setVisible(true)
+      }, 300)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div style={{
+      background: 'var(--sp-primary-dark)',
+      color: '#fff',
+      height: 36,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '0.72rem',
+      fontWeight: 600,
+      letterSpacing: '0.1em',
+      textTransform: 'uppercase',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      <span style={{
+        transition: 'opacity 0.3s ease, transform 0.3s ease',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(-6px)',
+        display: 'inline-block',
+      }}>
+        {ANNOUNCEMENTS[current]}
+      </span>
+      {/* Dots */}
+      <div style={{
+        position: 'absolute', right: 16,
+        display: 'flex', gap: 5, alignItems: 'center',
+      }}>
+        {ANNOUNCEMENTS.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            aria-label={`Annonce ${i + 1}`}
+            style={{
+              width: i === current ? 16 : 5,
+              height: 5,
+              borderRadius: 3,
+              background: i === current ? '#fff' : 'rgba(255,255,255,0.35)',
+              border: 'none', cursor: 'pointer', padding: 0,
+              transition: 'width 0.3s ease, background 0.3s ease',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ─── HomePage ─────────────────────────────────────────────────────────────────
 
 export function HomePage() {
@@ -739,6 +810,7 @@ export function HomePage() {
   return (
     <>
       <a href="#main" className="skip-link">Aller au contenu principal</a>
+      <AnnouncementBar />
       <Header />
       <main id="main">
         <HeroSection />
